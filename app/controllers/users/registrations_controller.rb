@@ -16,7 +16,7 @@ end
   def create
     puts "email------------params[:email]"
      #raise params.inspect
-    @user = User.create!(first_name: params["first_name"],last_name: params["last_name"],date_of_birth: params["date_of_birth"],email: params["email"], password: params["password"], password_confirmation: params["password_confirmation"],phone: params["phone"])
+    @user = User.create!(full_name: params["full_name"],email: params["email"], password: params["password"], password_confirmation: params["password_confirmation"],phone: params["phone"])
     if @user 
       response = create_tokens
       render :json => {:success => true, message: "User Registered Successfully!"}.merge!(response)
@@ -38,7 +38,7 @@ end
     client_id = headers["HTTP_DEVICE_ID"] rescue nil
     device_token = headers["HTTP_DEVICE_TOKEN"] rescue nil
     @user.update(device_id: client_id, token: device_token,auth_token: refresh_token)
-    response = { success: true, auth_token: refresh_token, user: {first_name: @user.first_name, last_name: @user.last_name }}
+    response = { success: true, auth_token: refresh_token, user: {full_name: @user.full_name }}
     
   end
 
