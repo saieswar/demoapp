@@ -3,7 +3,11 @@
 class UsersController < ApplicationController
 	def register
       #response = create_tokens
-      if params[:role].present?
+      
+      #  role_id = params[:role] == "Seller" ? Role.find_by(name: "Seller").id : Role.find_by(name: "Agent")
+       # @user = User.new(full_name: params["full_name"],email: params["email"], password: params["password"], password_confirmation: params["password_confirmation"],phone: params["phone"], role_id: Role.find_by(name: "Seller").id)
+     
+
       if params[:role] == "Seller"
         @user = User.new(full_name: params["full_name"],email: params["email"], password: params["password"], password_confirmation: params["password_confirmation"],phone: params["phone"], role_id: Role.find_by(name: "Seller").id)
         @user.save
@@ -12,18 +16,17 @@ class UsersController < ApplicationController
         @user.create_seller
 #        @user.update role_id: Role.find_by(name: "Seller").id
       elsif params[:role] == "Agent"
-        @user = User.new(full_name: params["full_name"],email: params["email"], password: params["password"], password_confirmation: params["password_confirmation"],phone: params["phone"], role_id: Role.find_by(name: "Agent").id)
-        @user.save
-        @user.create_agent(agency_name: params[:agency_name], real_estate_license: params[:real_estate_license])
-        puts "agent"
+         @user = User.new(full_name: params["full_name"],email: params["email"], password: params["password"], password_confirmation: params["password_confirmation"],phone: params["phone"], role_id: Role.find_by(name: "Agent").id)
+         @user.save
+          zip=Zip.find_by_zip_code(params[:zip_code]).id if Zip.find_by_zip_code(params[:zip_code]).present?
+          @user.create_agent(agency_name: params[:agency_name], real_estate_licensee: params[:real_estate_license], license_state: params[:license_state], brief_profile: params[:brief_profile])
+          @user.agent.create_address(address1: params[:address], zip_id: zip)
+          puts "agent"
       else
-        puts "no role sent"
+          puts "no role sent"
       end
-
-      render :json => {:success => true, message: "User Registered Successfully!"}
-    else
-      render :json=> { :success=>false, :error => @user.errors.full_messages.first }
-    end  
+        render :json => {:success => true, message: "User Registered Successfully!"}
+      
   
 	end
 
@@ -60,7 +63,7 @@ class UsersController < ApplicationController
       #@client = Twilio::REST::Client.new account_sid, auth_token
       #user_otp = @user.otp_code
      # @client.api.account.messages.create(from: '+14153601033',to: '+919493599638',body: "Hey there! #{user_otp}" )
-      response = { success: true, user: {full_name: @user.full_name, email: @user.email, auth_token: @user.auth_token, role: "Seller" }}
+      response = { success: true, user: {full_name: @user.full_name, email: @user.email, auth_token: @user.auth_token, role: @user.role.name }}
       
     end
    

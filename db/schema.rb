@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171002110316) do
+ActiveRecord::Schema.define(version: 20171008164723) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "address1"
@@ -49,6 +49,19 @@ ActiveRecord::Schema.define(version: 20171002110316) do
     t.boolean  "contacted",            limit: 1,     default: false
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
+  end
+
+  create_table "bid_services", force: :cascade do |t|
+    t.integer  "bid_id"
+    t.integer  "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "bid_statuses", force: :cascade do |t|
+    t.string   "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "bids", force: :cascade do |t|
@@ -115,6 +128,12 @@ ActiveRecord::Schema.define(version: 20171002110316) do
 
   create_table "sellers", force: :cascade do |t|
     t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

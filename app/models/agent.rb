@@ -3,5 +3,7 @@ class Agent < ApplicationRecord
 	has_one :address, through: :user
 	has_many :properties, :through => :bids
 	belongs_to :user,:dependent => :destroy
+  has_one :address, :as => :addressable, :dependent => :destroy
+
 	
 end

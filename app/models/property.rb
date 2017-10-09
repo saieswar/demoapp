@@ -3,6 +3,8 @@ class Property < ApplicationRecord
  has_one :address, :as => :addressable, :dependent => :destroy
 	has_one :zip, :through => :address
 	has_many :agents, :through => :bids
+	belongs_to :property_type
+  has_many :bids, ->{order('created_at ASC')}, :dependent => :destroy
    Hold = "Hold"
   Open = "Open"
   Obtaining_Offers = "Obtaining Offers"
