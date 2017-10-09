@@ -6,6 +6,7 @@ def response_token
     response_token = session[:response_token] || {}
 end
 
+
 def agent_properties
   if @current_user.agent
     agent = @current_user.agent 
@@ -21,10 +22,10 @@ def agent_properties
         state = zip.state rescue nil
         zip_code = zip.zip_code rescue nil
         property_type = property.property_type.name
-        agent = property.bids.where(agent_id: agent.id).count > 0 ? true : false
+        agent_status = property.bids.where(agent_id: agent.id).count > 0 ? true : false
          @all_properties << {property_id: property.id, property_type: property_type, bedrooms: property.bedrooms, bathrooms: property.bathrooms, lot_size: property.lot_size,
           address: address1, est_sale_price: property.est_sale_price, city: city,
-          state: state , zip_code: zip_code, agent_bided: agent, property_status: property.status } 
+          state: state , zip_code: zip_code, agent_bided: agent_status, property_status: property.status } 
      end
     render json:{success: true, properties: @all_properties}.merge!(response_token)
   else
