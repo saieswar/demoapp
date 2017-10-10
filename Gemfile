@@ -9,8 +9,8 @@ gem 'sqlite3'
 gem 'puma', '~> 3.0'
 gem 'devise'
 gem 'rack-cors', :require => 'rack/cors'
-gem 'twilio-ruby', '~> 5.0.0.rc26'
-gem 'active_model_otp'
+# gem 'twilio-ruby', '~> 5.0.0.rc26'
+# gem 'active_model_otp'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'

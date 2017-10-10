@@ -12,7 +12,7 @@ namespace :static_data do
 	task :reset_data => :environment do
 		
 		puts "Services created!"
-		Service.destroy_all
+		Service.delete_all
 	  Service.create(id: 1, name: "MLS Listing")
 		Service.create(id: 2, name: "Open Houses")
 		Service.create(id: 3, name: "Photography")
@@ -22,11 +22,12 @@ namespace :static_data do
 		Service.create(id: 7, name: "Open Houses")
 
     puts "Roles created!"
-    Role.destroy_all
+    Role.delete_all
 		Role.create(id:1, name: "Agent")
-		Role.create(id:1, name: "Seller")
+		Role.create(id:2, name: "Seller")
 
 		puts "Property types created!"
+	PropertyType.delete_all	
     PropertyType.create(id: 1, name: "Single Family")
     PropertyType.create(id: 2, name: "Multi Family")
     PropertyType.create(id: 3, name: "Condominium")
@@ -34,11 +35,11 @@ namespace :static_data do
     PropertyType.create(id: 5, name: "Apartment")
     PropertyType.create(id: 6, name: "Loft")
 
-   BidStatus.destroy_all
+   BidStatus.delete_all
 		puts "BidStatus created!"
 		BidStatus.create(id: 1, status: "Bid Pending")
 		BidStatus.create(id: 2, status: "Bid Accepted")
-    BidStatus.create(id: 3, status: "Bid Rejected")
+        BidStatus.create(id: 3, status: "Bid Rejected")
     BidStatus.create(id: 4, status: "Bid Won")
     BidStatus.create(id: 5, status: "Bid Lost")
     BidStatus.create(id: 6, status: "Bid Cancelled")

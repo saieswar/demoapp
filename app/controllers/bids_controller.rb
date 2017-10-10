@@ -7,24 +7,29 @@ def response_token
 end
 
 def index
-    if @current_user.agent && @current_user.agent.present?
-      @all_properties = []
+    if @current_user.agent
+      bids_info = []
       @agent=@current_user.agent
-      @state = @agent.address.zip.state rescue @agent.license_state
+      #@state = @agent.address.zip.state rescue @agent.license_state
       @response_token = response_token
-      if params[:status].present?
-        status_id=BidStatus.find_by_status(params[:status]).id
-        @agent.bids.where(bid_status_id: status_id ,is_repost: false).each do |bid|
-          @all_properties << bid.property if @agent.bids.where(property_id: bid.property.id,is_repost: false).first.status == params[:status]
-        end    
-        @all_properties = @all_properties.uniq
-        @properties = request.headers["HTTP_DEVICE_ID"].present? ? Kaminari.paginate_array(@all_properties).page(params[:index].to_i).per(12) : Kaminari.paginate_array(@all_properties).page(params[:index].to_i).per(8)
+      #if params[:status].present?
+        status_id=BidStatus.find_by_status(BidStatus::Accept).id
+        @agent.bids.where(bid_status_id: status_id).each do |bid|
+          property = bid.property 
 
-      else
-        invalid_status
-      end
+          #property_details = {est_sale_price: property.est_sale_price, property_type: property.property_type.name, address: address1, city1: city1, state1: state1, zip_code1: zip_code1 }
+            property = bid.property
+            address1 = property.address.address1 rescue nil
+            city1 = property.address.zip.city  rescue nil
+            state1 = property.address.zip.state rescue nil
+            zip_code1 = property.address.zip.zip_code  
+            property_details = {est_sale_price: property.est_sale_price, property_type: property.property_type.name, address: address1, city1: city1, state1: state1, zip_code1: zip_code1 }
+            bids_info << {property_details: property_details, bid_id: bid.id, bid_status: bid.bid_status.status, bid_percentage: bid.bid_percentage, bid_services: bid.services.map(&:name), property_status: property.status}
+        end    
+        render json: {success: true , bids_info: bids_info}.merge!(response_token)
+    
     else
-       access_denied
+       render json: {success: "false", error: "Not Authorized"}
     end
 end
 

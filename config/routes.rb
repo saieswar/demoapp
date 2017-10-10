@@ -26,5 +26,6 @@ match "/place_bid" => "bids#place_bid", via: :post
 match "/accept_bid" => "bids#accept_bid", via: :post
 match "/property_bids" => "properties#property_bids", via: :get
 match "/my_agents" => "properties#my_agents", via: :get
+match "/won_bids" => "bids#index", via: :get
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -114,12 +114,6 @@ ActiveRecord::Schema.define(version: 20171008164723) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "propery_types", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
